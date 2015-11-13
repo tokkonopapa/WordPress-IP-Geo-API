@@ -104,6 +104,44 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		return $res;
 	}
+
+	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
+		add_settings_field(
+			$option_name . "_${field}_ipv4",
+			"$field $str_path (IPv4)",
+			$callback,
+			$option_slug,
+			$section,
+			array(
+				'type' => 'text',
+				'option' => $option_name,
+				'field' => $field,
+				'sub-field' => 'ipv4_path',
+				'value' => $options[ $field ]['ipv4_path'],
+				'disabled' => TRUE,
+				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv4" style="margin-left: 0.2em">' .
+				sprintf( $str_last, ip_geo_block_localdate( $options[ $field ]['ipv4_last'] ) ) . '</p>',
+			)
+		);
+
+		add_settings_field(
+			$option_name . "_${field}_ipv6",
+			"$field $str_path (IPv6)",
+			$callback,
+			$option_slug,
+			$section,
+			array(
+				'type' => 'text',
+				'option' => $option_name,
+				'field' => $field,
+				'sub-field' => 'ipv6_path',
+				'value' => $options[ $field ]['ipv6_path'],
+				'disabled' => TRUE,
+				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv6" style="margin-left: 0.2em">' .
+				sprintf( $str_last, ip_geo_block_localdate( $options[ $field ]['ipv4_last'] ) ) . '</p>',
+			)
+		);
+	}
 }
 
 /**
