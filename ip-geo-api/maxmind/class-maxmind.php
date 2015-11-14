@@ -105,6 +105,10 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 		return $res;
 	}
 
+	public function show_info() {
+		echo 'This product includes GeoLite data created by MaxMind, available from <a class="ip-geo-block-link" href="http://www.maxmind.com" rel=noreferrer target=_blank>http://www.maxmind.com</a>.';
+	}
+
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
 		add_settings_field(
 			$option_name . "_${field}_ipv4",

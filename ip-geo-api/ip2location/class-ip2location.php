@@ -103,6 +103,10 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		return $res;
 	}
 
+	public function show_info() {
+		echo 'This site or product includes IP2Location LITE data available from <a class="ip-geo-block-link" href="http://www.ip2location.com" rel=noreferrer target=_blank>http://www.ip2location.com</a>.';
+	}
+
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
 		add_settings_field(
 			$option_name . "_${field}_ipv4",
