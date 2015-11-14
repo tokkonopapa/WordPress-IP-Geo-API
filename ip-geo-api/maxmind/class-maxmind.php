@@ -65,6 +65,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			break;
 		  default:
 			$res = array( 'errorMessage' => 'unknown database type' );
+			break;
 		}
 
 		geoip_close( $geo );
@@ -89,9 +90,6 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$db['ipv4_last']
 		);
 
-		$db['ipv4_path'] = ! empty( $res['ipv4']['filename'] ) ? $res['ipv4']['filename'] : NULL;
-		$db['ipv4_last'] = ! empty( $res['ipv4']['modified'] ) ? $res['ipv4']['modified'] : 0;
-
 		$res['ipv6'] = ip_geo_block_download_zip(
 			apply_filters( IP_Geo_Block::PLUGIN_SLUG . '-maxmind-zip-ipv6', IP_GEO_BLOCK_MAXMIND_IPV6_ZIP ),
 			$args,
@@ -99,7 +97,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$db['ipv6_last']
 		);
 
-		$db['ipv6_path'] = ! empty( $res['ipv6']['filename'] ) ? $res['ipv6']['filename'] : NULL;
+		$db['ipv4_last'] = ! empty( $res['ipv4']['modified'] ) ? $res['ipv4']['modified'] : 0;
 		$db['ipv6_last'] = ! empty( $res['ipv6']['modified'] ) ? $res['ipv6']['modified'] : 0;
 
 		return $res;
