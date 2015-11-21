@@ -30,7 +30,8 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 	);
 
 	public function get_location( $ip, $args = array() ) {
-		require_once( 'IP2Location.php' );
+		if ( ! class_exists( 'IP2LocationRecord' ) )
+			require_once( 'IP2Location.php' );
 
 		// setup database file and function
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
@@ -73,7 +74,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		return array( 'errorMessage' => 'Not supported' );
 	}
 
-	public function get_db_dir() {
+	private function get_db_dir() {
 		return trailingslashit( apply_filters(
 			IP_Geo_Block::PLUGIN_SLUG . '-ip2location-dir', dirname( __FILE__ )
 		) );

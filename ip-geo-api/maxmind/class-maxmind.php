@@ -34,7 +34,8 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 	}
 
 	public function get_location( $ip, $args = array() ) {
-		require_once( 'geoip.inc' );
+		if ( ! function_exists( 'geoip_open' ) )
+			require_once( 'geoip.inc' );
 
 		// setup database file and function
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) )
@@ -56,23 +57,24 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$res = $this->location_country( geoip_country_code_by_addr_v6( $geo, $ip ) );
 			break;
 		  case GEOIP_CITY_EDITION_REV1:
-			require_once( 'geoipcity.inc' );
+			if ( ! class_exists( 'geoiprecord' ) )
+				require_once( 'geoipcity.inc' );
 			$res = $this->location_city( geoip_record_by_addr( $geo, $ip ) );
 			break;
 		  case GEOIP_CITY_EDITION_REV1_V6:
-			require_once( 'geoipcity.inc' );
+			if ( ! class_exists( 'geoiprecord' ) )
+				require_once( 'geoipcity.inc' );
 			$res = $this->location_city( geoip_record_by_addr_v6( $geo, $ip ) );
 			break;
 		  default:
 			$res = array( 'errorMessage' => 'unknown database type' );
-			break;
 		}
 
 		geoip_close( $geo );
 		return $res;
 	}
 
-	public function get_db_dir() {
+	private function get_db_dir() {
 		return trailingslashit( apply_filters(
 			IP_Geo_Block::PLUGIN_SLUG . '-maxmind-dir', dirname( __FILE__ )
 		) );
