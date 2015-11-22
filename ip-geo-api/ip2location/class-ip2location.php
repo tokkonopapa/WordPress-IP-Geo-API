@@ -33,7 +33,6 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		if ( ! extension_loaded('bcmath') )
 			require_once( 'bcmath.php' );
 
-		// class library based on 7.0.0
 		if ( ! class_exists( 'IP2Location' ) )
 			require_once( 'IP2Location.php' );
 
@@ -64,7 +63,8 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 						$res[ $key ] = $data->$val;
 				}
 
-				return $res;
+				if ( isset( $res['countryCode'] ) && strlen( $res['countryCode'] ) === 2 )
+					return $res;
 			}
 		}
 
