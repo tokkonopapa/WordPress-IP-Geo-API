@@ -30,7 +30,11 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 	);
 
 	public function get_location( $ip, $args = array() ) {
-		if ( ! class_exists( 'IP2LocationRecord' ) )
+		if ( ! extension_loaded('bcmath') )
+			require_once( 'bcmath.php' );
+
+		// class library based on 7.0.0
+		if ( ! class_exists( 'IP2Location' ) )
 			require_once( 'IP2Location.php' );
 
 		// setup database file and function
@@ -54,16 +58,13 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 			if ( $geo && ( $geo->get_database_type() & $type ) ) {
 				$res = array();
 				$data = $geo->lookup( $ip );
+
 				foreach ( $this->transform_table as $key => $val ) {
-					if ( ! empty( $val ) && ! empty( $data->$val ) )
+					if ( isset( $data->$val ) && IP2Location::FIELD_NOT_SUPPORTED !== $data->$val )
 						$res[ $key ] = $data->$val;
 				}
 
-				if ( isset( $res['countryCode'] ) && strlen( $res['countryCode'] ) === 2 ) {
-					if ( is_string( $res['latitude' ] ) ) unset( $res['latitude' ] );
-					if ( is_string( $res['longitude'] ) ) unset( $res['longitude'] );
-					return $res;
-				}
+				return $res;
 			}
 		}
 

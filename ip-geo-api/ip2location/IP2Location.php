@@ -4,9 +4,6 @@
  * base on IP2Location PHP Module Version: 7.0.0
  * from http://www.ip2location.com/developers/php
  */
-if ( ! extension_loaded('bcmath') ):
-	include_once 'bcmath.php';
-endif;
 
 /**
  * Copyright (C) 2005-2014 IP2Location.com
@@ -170,7 +167,7 @@ class IP2Location {
   private $result;
 
   /**
-   * Added by tokkonopapa
+   * Added for IP Geo Block
    */
   public function get_database_type() {
     return ($this->database['ipv4_count'] ? 1 : 0) |
