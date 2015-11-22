@@ -29,6 +29,11 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		'longitude'   => 'longitude',
 	);
 
+	private function get_database_type( $geo ) {
+		return ( $geo->database['ipv4_count'] ? IP_GEO_BLOCK_API_TYPE_IPV4 : 0 ) |
+		       ( $geo->database['ipv6_count'] ? IP_GEO_BLOCK_API_TYPE_IPV6 : 0 );
+	}
+
 	public function get_location( $ip, $args = array() ) {
 		if ( ! extension_loaded('bcmath') )
 			require_once( 'bcmath.php' );
@@ -54,7 +59,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		try {
 			$geo = new IP2Location( $file );
-			if ( $geo && ( $geo->get_database_type() & $type ) ) {
+			if ( $geo && ( $this->get_database_type( $geo ) & $type ) ) {
 				$res = array();
 				$data = $geo->lookup( $ip );
 
