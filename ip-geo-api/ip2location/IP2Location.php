@@ -167,6 +167,14 @@ class IP2Location {
   private $result;
 
   /**
+   * Added for IP Geo Block
+   */
+  public function get_database_type() {
+    return ( $this->database['ipv4_count'] ? IP_GEO_BLOCK_API_TYPE_IPV4 : 0 ) |
+           ( $this->database['ipv6_count'] ? IP_GEO_BLOCK_API_TYPE_IPV6 : 0 );
+  }
+
+  /**
    * Constructor.
    */
   public function __construct($file = NULL, $mode = self::FILE_IO) {
