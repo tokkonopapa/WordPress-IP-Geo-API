@@ -6,7 +6,7 @@
  */
 
 /**
- * Copyright (C) 2005-2014 IP2Location.com
+ * Copyright (C) 2005-2015 IP2Location.com
  * All Rights Reserved
  *
  * This library is free software: you can redistribute it and/or
@@ -179,7 +179,7 @@ class IP2Location {
    */
   public function __construct($file = NULL, $mode = self::FILE_IO) {
     if (!file_exists($file)) {
-      throw new Exception("IP2Location.class.php: Unable to open file $file.");
+      throw new Exception('IP2Location.class.php: Unable to open file "' . $file . '".');
     }
 
     // Define system unpack method.
@@ -419,7 +419,7 @@ if ( extension_loaded('gmp') ):
 else:
 
     /**
-     * Added by tokkonopapa (code from ip2location.class.php)
+     * Added for IP Geo Block (code from ip2location.class.php)
      */
     $n = substr_count($ipv6, ':');
 
@@ -520,7 +520,7 @@ endif;
       }
 
       if (($ip_number >= $ip_from) && ($ip_number < $ip_to)) {
-        $return = '';
+        $return = self::FIELD_NOT_SUPPORTED;
         $pointer = $base_address + ($mid * $this->database['column'] * 4);
 
         switch ($fields) {
@@ -540,23 +540,31 @@ endif;
           case self::MNC:
           case self::MOBILE_CARRIER_NAME:
           case self::ELEVATION:
-            $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
+            if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
+              $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
+		    }
 
             break;
 
           case self::COUNTRY_NAME:
-            $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32') + 3, 'string', TRUE);
+            if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
+              $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32') + 3, 'string', TRUE);
+            }
 
             break;
 
           case self::LATITUDE:
           case self::LONGITUDE:
-            $return = $this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), 'float', TRUE);
+            if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
+              $return = $this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), 'float', TRUE);
+            }
 
             break;
 
           case self::USAGE_TYPE:
-            $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
+            if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
+              $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
+		    }
 
             break;
 

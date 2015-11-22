@@ -3,13 +3,9 @@ Addons for IP Geo Block
 A class library combined with WordPress plugin [IP Geo Block][IP-Geo-Block] 
 to handle geo-location database of Maxmind and IP2Location.
 
-Feature
--------
-
-
 How to install
 --------------
-Upload the `ip-geo-dbs` to WordPress content directory `wp-content/`.
+Upload the `ip-geo-api` to WordPress content directory `wp-content/`.
 
 Attribution
 -----------
