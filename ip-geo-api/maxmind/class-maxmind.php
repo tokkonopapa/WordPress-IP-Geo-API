@@ -105,8 +105,8 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 		return $res;
 	}
 
-	public function show_info() {
-		echo 'This product includes GeoLite data created by MaxMind, available from <a class="ip-geo-block-link" href="http://www.maxmind.com" rel=noreferrer target=_blank>http://www.maxmind.com</a>.';
+	public function get_attribution() {
+		return 'This product includes GeoLite data created by MaxMind, available from <a class="ip-geo-block-link" href="http://www.maxmind.com" rel=noreferrer target=_blank>http://www.maxmind.com</a>.';
 	}
 
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
@@ -157,8 +157,8 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 IP_Geo_Block_Provider::register_addon( array(
 	'Maxmind' => array(
 		'key'  => NULL,
-		'type' => 'IPv4, IPv6 / free, need an attribution link',
-		'link' => '<a class="ip-geo-block-link" href="http://dev.maxmind.com/geoip/legacy/geolite/" title="GeoLite Free Downloadable Databases &laquo; Maxmind Developer Site" rel=noreferrer target=_blank>http://www.maxmind.com</a>&nbsp;(IPv4, IPv6 / free, need an attribution link)',
+		'type' => 'IPv4, IPv6 / CC BY-SA 3.0',
+		'link' => '<a class="ip-geo-block-link" href="http://dev.maxmind.com/geoip/" title="GeoIP Products &laquo; Maxmind Developer Site" rel=noreferrer target=_blank>http://dev.maxmind.com/geoip/</a>&nbsp;(IPv4, IPv6 / CC BY-SA 3.0)',
 	),
 ) );
 

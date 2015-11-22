@@ -542,7 +542,7 @@ endif;
           case self::ELEVATION:
             if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
               $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
-		    }
+            }
 
             break;
 
@@ -564,7 +564,7 @@ endif;
           case self::USAGE_TYPE:
             if($this->columns[$keys[$fields - 1]][$this->database['type']] != 0){
               $return = $this->readByte($this->readByte($pointer + 4 * ($this->columns[$keys[$fields - 1]][$this->database['type']] - 1), '32'), 'string', TRUE);
-		    }
+            }
 
             break;
 

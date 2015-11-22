@@ -106,8 +106,8 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		return $res;
 	}
 
-	public function show_info() {
-		echo 'This site or product includes IP2Location LITE data available from <a class="ip-geo-block-link" href="http://www.ip2location.com" rel=noreferrer target=_blank>http://www.ip2location.com</a>.';
+	public function get_attribution() {
+		return 'This site or product includes IP2Location LITE data available from <a class="ip-geo-block-link" href="http://www.ip2location.com" rel=noreferrer target=_blank>http://www.ip2location.com</a>.';
 	}
 
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
@@ -161,8 +161,8 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 IP_Geo_Block_Provider::register_addon( array(
 	'IP2Location' => array(
 		'key'  => NULL,
-		'type' => 'IPv4 / free, need an attribution link',
-		'link' => '<a class="ip-geo-block-link" href="http://www.ip2location.com/free/plugins" title="Free Plugins | IP2Location.com" rel=noreferrer target=_blank>http://www.ip2location.com/</a>&nbsp;(IPv4 / free, need an attribution link)',
+		'type' => 'IPv4, IPv6 / CC BY-SA 4.0',
+		'link' => '<a class="ip-geo-block-link" href="http://lite.ip2location.com/" title="Free IP Geolocation Database" rel=noreferrer target=_blank>http://lite.ip2location.com/</a>&nbsp;(IPv4, IPv6 / CC BY-SA 4.0)',
 	),
 ) );
 
