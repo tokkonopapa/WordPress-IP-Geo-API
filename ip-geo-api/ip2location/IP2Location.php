@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the modified version for IP Geo Block
- * base on IP2Location PHP Module Version: 7.0.0
+ * based on IP2Location PHP Module Version: 7.0.0
  * from http://www.ip2location.com/developers/php
  */
 
