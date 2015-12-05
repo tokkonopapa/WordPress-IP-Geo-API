@@ -7,6 +7,13 @@ How to install
 --------------
 Upload the `ip-geo-api` to WordPress content directory `wp-content/`.
 
+Version correspondence
+----------------------
+
+| ip-geo-block | ip-geo-api |
+|-------------:|-----------:|
+|        2.2.1 |        1.0 |
+
 Attribution
 -----------
 This product includes MaxMind GeoIP Legacy PHP API available from http://www.maxmind.com.  

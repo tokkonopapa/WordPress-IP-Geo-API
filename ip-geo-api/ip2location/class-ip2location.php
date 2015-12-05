@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_IP2LOC_IPV4_ZIP', 'http://download.ip2location.com/lite/IP
 define( 'IP_GEO_BLOCK_IP2LOC_IPV6_ZIP', 'http://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP' );
 
 /**
- * Class for IP2Location
+ * Class for IP2Location (ver. 1.0)
  *
  * URL         : http://www.ip2location.com/
  * Term of use : http://www.ip2location.com/terms
@@ -87,14 +87,20 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		$dir = $this->get_db_dir();
 
 		$res['ipv4'] = ip_geo_block_download_zip(
-			apply_filters( IP_Geo_Block::PLUGIN_SLUG . '-ip2location-zip-ipv4', IP_GEO_BLOCK_IP2LOC_IPV4_ZIP ),
+			apply_filters(
+				IP_Geo_Block::PLUGIN_SLUG . '-ip2location-zip-ipv4',
+				IP_GEO_BLOCK_IP2LOC_IPV4_ZIP
+			),
 			$args,
 			$dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT,
 			$db['ipv4_last']
 		);
 
 		$res['ipv6'] = ip_geo_block_download_zip(
-			apply_filters( IP_Geo_Block::PLUGIN_SLUG . '-ip2location-zip-ipv6', IP_GEO_BLOCK_IP2LOC_IPV6_ZIP ),
+			apply_filters(
+				IP_Geo_Block::PLUGIN_SLUG . '-ip2location-zip-ipv6',
+				IP_GEO_BLOCK_IP2LOC_IPV6_ZIP
+			),
 			$args,
 			$dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT,
 			$db['ipv6_last']
@@ -114,7 +120,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		$dir = $this->get_db_dir();
 
 		add_settings_field(
-			$option_name . "_${field}_ipv4",
+			$option_name . $field . '_ipv4',
 			"$field $str_path (IPv4)",
 			$callback,
 			$option_slug,
@@ -135,7 +141,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		);
 
 		add_settings_field(
-			$option_name . "_${field}_ipv6",
+			$option_name . $field . '_ipv6',
 			"$field $str_path (IPv6)",
 			$callback,
 			$option_slug,
