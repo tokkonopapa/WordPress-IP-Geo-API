@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_IP2LOC_IPV4_ZIP', 'http://download.ip2location.com/lite/IP
 define( 'IP_GEO_BLOCK_IP2LOC_IPV6_ZIP', 'http://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP' );
 
 /**
- * Class for IP2Location (ver. 1.1)
+ * Class for IP2Location (ver. 1.1.1)
  *
  * URL         : http://www.ip2location.com/
  * Term of use : http://www.ip2location.com/terms
@@ -40,19 +40,19 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		// setup database file and function
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+			$type = IP_GEO_BLOCK_API_TYPE_IPV4;
 			$file = apply_filters(
 				IP_Geo_Block::PLUGIN_SLUG . '-ip2location-path',
 				empty( $settings['IP2Location']['ipv4_path'] ) ? 
 					$this->get_db_dir() . IP_GEO_BLOCK_IP2LOC_IPV4_DAT :
 					$settings['IP2Location']['ipv4_path']
 			);
-			$type = IP_GEO_BLOCK_API_TYPE_IPV4;
 		}
 		elseif ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+			$type = IP_GEO_BLOCK_API_TYPE_IPV6;
 			$file = empty( $settings['IP2Location']['ipv6_path'] ) ? 
 				$this->get_db_dir() . IP_GEO_BLOCK_IP2LOC_IPV6_DAT :
 				$settings['IP2Location']['ipv6_path'];
-			$type = IP_GEO_BLOCK_API_TYPE_IPV6;
 		}
 		else {
 			return array( 'errorMessage' => 'illegal format' );
@@ -90,7 +90,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 	public function download( &$db, $args ) {
 		$dir = $this->get_db_dir();
 
-		if ( empty( $db['ipv4_path'] ) )
+		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT;
 
 		$res['ipv4'] = IP_Geo_Block_Util::download_zip(
@@ -103,7 +103,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 			$db['ipv4_last']
 		);
 
-		if ( empty( $db['ipv6_path'] ) )
+		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT;
 
 		$res['ipv6'] = IP_Geo_Block_Util::download_zip(

@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_MAXMIND_IPV4_ZIP', 'http://geolite.maxmind.com/download/ge
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz' );
 
 /**
- * Class for Maxmind (ver. 1.1)
+ * Class for Maxmind (ver. 1.1.1)
  *
  * URL         : http://dev.maxmind.com/geoip/legacy/geolite/
  * Term of use : http://dev.maxmind.com/geoip/legacy/geolite/#License
@@ -56,7 +56,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 		}
 
 		// open database and fetch data
-		if ( ! file_exists( $file ) || null == ( $geo = geoip_open( $file, GEOIP_STANDARD ) ) )
+		if ( ! is_readable( $file ) || ! ( $geo = geoip_open( $file, GEOIP_STANDARD ) ) )
 			return FALSE;
 
 		switch ( $geo->databaseType ) {
@@ -93,7 +93,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 	public function download( &$db, $args ) {
 		$dir = $this->get_db_dir();
 
-		if ( empty( $db['ipv4_path'] ) )
+		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT;
 
 		$res['ipv4'] = IP_Geo_Block_Util::download_zip(
@@ -106,7 +106,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$db['ipv4_last']
 		);
 
-		if ( empty( $db['ipv6_path'] ) )
+		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV6_DAT;
 
 		$res['ipv6'] = IP_Geo_Block_Util::download_zip(
