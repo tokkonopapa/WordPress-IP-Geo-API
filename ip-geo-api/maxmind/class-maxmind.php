@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_MAXMIND_IPV4_ZIP', 'http://geolite.maxmind.com/download/ge
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz' );
 
 /**
- * Class for Maxmind (ver. 1.1.1)
+ * Class for Maxmind (ver. 1.1.2)
  *
  * URL         : http://dev.maxmind.com/geoip/legacy/geolite/
  * Term of use : http://dev.maxmind.com/geoip/legacy/geolite/#License
@@ -134,6 +134,18 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
 		$dir = $this->get_db_dir();
 
+		$path = empty( $options['Maxmind']['ipv4_path'] ) ?
+			$dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
+			$options['Maxmind']['ipv4_path'];
+
+		$date = empty( $options['Maxmind']['ipv4_path'] ) ||
+			! @file_exists( $options['Maxmind']['ipv4_path'] ) ?
+			__( 'Database file does not exist.', IP_Geo_Block::TEXT_DOMAIN ) :
+			sprintf(
+				$str_last,
+				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
+			);
+
 		add_settings_field(
 			$option_name . $field . '_ipv4',
 			"$field $str_path (IPv4)",
@@ -145,14 +157,23 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 				'option' => $option_name,
 				'field' => $field,
 				'sub-field' => 'ipv4_path',
-				'value' => empty( $options['Maxmind']['ipv4_path'] ) ?
-					$dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
-					$options['Maxmind']['ipv4_path'],
+				'value' => $path,
 				'disabled' => TRUE,
-				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv4" style="margin-left: 0.2em">' .
-				sprintf( $str_last, IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] ) ) . '</p>',
+				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv4" style="margin-left: 0.2em">' . $date . '</p>',
 			)
 		);
+
+		$path = empty( $options['Maxmind']['ipv4_path'] ) ?
+			$dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
+			$options['Maxmind']['ipv4_path'];
+
+		$date = empty( $options['Maxmind']['ipv4_path'] ) ||
+			! @file_exists( $options['Maxmind']['ipv4_path'] ) ?
+			__( 'Database file does not exist.', IP_Geo_Block::TEXT_DOMAIN ) :
+			sprintf(
+				$str_last,
+				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
+			);
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
@@ -165,12 +186,9 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 				'option' => $option_name,
 				'field' => $field,
 				'sub-field' => 'ipv6_path',
-				'value' => empty( $options['Maxmind']['ipv6_path'] ) ?
-					$dir . IP_GEO_BLOCK_MAXMIND_IPV6_DAT :
-					$options['Maxmind']['ipv6_path'],
+				'value' => $path,
 				'disabled' => TRUE,
-				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv6" style="margin-left: 0.2em">' .
-				sprintf( $str_last, IP_Geo_Block_Util::localdate( $options[ $field ]['ipv6_last'] ) ) . '</p>',
+				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv6" style="margin-left: 0.2em">' . $date . '</p>',
 			)
 		);
 	}
