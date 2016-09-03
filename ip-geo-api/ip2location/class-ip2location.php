@@ -95,7 +95,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT;
 
-		$res['ipv4'] = IP_Geo_Block_Util::download_zip(
+		$res['ipv4'] = IP_Geo_Block_Gzip::download_zip(
 			apply_filters(
 				IP_Geo_Block::PLUGIN_NAME . '-ip2location-zip-ipv4',
 				IP_GEO_BLOCK_IP2LOC_IPV4_ZIP
@@ -108,7 +108,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT;
 
-		$res['ipv6'] = IP_Geo_Block_Util::download_zip(
+		$res['ipv6'] = IP_Geo_Block_Gzip::download_zip(
 			apply_filters(
 				IP_Geo_Block::PLUGIN_NAME . '-ip2location-zip-ipv6',
 				IP_GEO_BLOCK_IP2LOC_IPV6_ZIP
