@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_MAXMIND_IPV4_ZIP', 'http://geolite.maxmind.com/download/ge
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz' );
 
 /**
- * Class for Maxmind (ver. 1.1.4)
+ * Class for Maxmind (ver. 1.1.5)
  *
  * URL         : http://dev.maxmind.com/geoip/legacy/geolite/
  * Term of use : http://dev.maxmind.com/geoip/legacy/geolite/#License
@@ -91,7 +91,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 	}
 
 	private function get_db_dir() {
-		return trailingslashit( apply_filters(
+		return IP_Geo_Block_Util::slashit( apply_filters(
 			IP_Geo_Block::PLUGIN_NAME . '-maxmind-dir', dirname( __FILE__ )
 		) );
 	}
@@ -102,7 +102,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT;
 
-		$res['ipv4'] = IP_Geo_Block_Gzip::download_zip(
+		$res['ipv4'] = IP_Geo_Block_Util::download_zip(
 			apply_filters(
 				IP_Geo_Block::PLUGIN_NAME . '-maxmind-zip-ipv4',
 				IP_GEO_BLOCK_MAXMIND_IPV4_ZIP
@@ -115,7 +115,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV6_DAT;
 
-		$res['ipv6'] = IP_Geo_Block_Gzip::download_zip(
+		$res['ipv6'] = IP_Geo_Block_Util::download_zip(
 			apply_filters(
 				IP_Geo_Block::PLUGIN_NAME . '-maxmind-zip-ipv6',
 				IP_GEO_BLOCK_MAXMIND_IPV6_ZIP
@@ -165,7 +165,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 				'sub-field' => 'ipv4_path',
 				'value' => $path,
 				'disabled' => TRUE,
-				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv4" style="margin-left: 0.2em">' . $date . '</p>',
+				'after' => '<br /><p id="ip-geo-block-' . $field . '-ipv4" style="margin-left: 0.2em">' . $date . '</p>',
 			)
 		);
 
@@ -194,7 +194,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 				'sub-field' => 'ipv6_path',
 				'value' => $path,
 				'disabled' => TRUE,
-				'after' => '<br /><p id="ip_geo_block_' . $field . '_ipv6" style="margin-left: 0.2em">' . $date . '</p>',
+				'after' => '<br /><p id="ip-geo-block-' . $field . '-ipv6" style="margin-left: 0.2em">' . $date . '</p>',
 			)
 		);
 	}
