@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_MAXMIND_IPV4_ZIP', 'http://geolite.maxmind.com/download/ge
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz' );
 
 /**
- * Class for Maxmind (ver. 1.1.6)
+ * Class for Maxmind (ver. 1.1.7)
  *
  * URL         : http://dev.maxmind.com/geoip/legacy/geolite/
  * Term of use : http://dev.maxmind.com/geoip/legacy/geolite/#License
@@ -154,7 +154,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
-			"$field $str_path (IPv4)",
+			"$field $str_path (<a href='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "'>IPv4</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -183,7 +183,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
-			"$field $str_path (IPv6)",
+			"$field $str_path (<a href='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "'>IPv6</a>)",
 			$callback,
 			$option_slug,
 			$section,

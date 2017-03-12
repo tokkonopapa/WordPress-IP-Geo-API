@@ -11,7 +11,7 @@ define( 'IP_GEO_BLOCK_IP2LOC_IPV4_ZIP', 'http://download.ip2location.com/lite/IP
 define( 'IP_GEO_BLOCK_IP2LOC_IPV6_ZIP', 'http://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP' );
 
 /**
- * Class for IP2Location (ver. 1.1.6)
+ * Class for IP2Location (ver. 1.1.7)
  *
  * URL         : http://www.ip2location.com/
  * Term of use : http://www.ip2location.com/terms
@@ -152,7 +152,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
-			"$field $str_path (IPv4)",
+			"$field $str_path (<a href='" . IP_GEO_BLOCK_IP2LOC_IPV4_ZIP . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV4_ZIP . "'>IPv4</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -181,7 +181,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
-			"$field $str_path (IPv6)",
+			"$field $str_path (<a href='" . IP_GEO_BLOCK_IP2LOC_IPV6_ZIP . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV6_ZIP . "'>IPv6</a>)",
 			$callback,
 			$option_slug,
 			$section,
