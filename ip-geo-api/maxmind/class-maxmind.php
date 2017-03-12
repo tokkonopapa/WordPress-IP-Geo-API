@@ -154,7 +154,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
-			"$field $str_path (<a href='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "'>IPv4</a>)",
+			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "'>IPv4</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -183,7 +183,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
-			"$field $str_path (<a href='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "'>IPv6</a>)",
+			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "'>IPv6</a>)",
 			$callback,
 			$option_slug,
 			$section,
