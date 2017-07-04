@@ -2,13 +2,13 @@
 /**
  * IP Geo Block API class library for IP2Location
  *
- * @version   1.1.8
+ * @version   1.1.9
  * @author    tokkonopapa <tokkonopapa@yahoo.com>
  * @license   GPL-2.0+
  * @link      http://www.ipgeoblock.com/
  * @copyright 2013-2017 tokkonopapa
  */
-if ( class_exists( 'IP_Geo_Block_API' ) ) :
+if ( class_exists( 'IP_Geo_Block_API', FALSE ) ) :
 
 /**
  * URL and Path for IP2Location database
@@ -45,7 +45,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		if ( ! extension_loaded('bcmath') )
 			require_once( 'bcmath.php' );
 
-		if ( ! class_exists( 'IP2Location' ) )
+		if ( ! class_exists( 'IP2Location', FALSE ) )
 			require_once( 'IP2Location.php' );
 
 		// setup database file and function

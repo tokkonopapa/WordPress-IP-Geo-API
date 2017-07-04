@@ -2,13 +2,13 @@
 /**
  * IP Geo Block API class library for Maxmind
  *
- * @version   1.1.8
+ * @version   1.1.9
  * @author    tokkonopapa <tokkonopapa@yahoo.com>
  * @license   GPL-2.0+
  * @link      http://www.ipgeoblock.com/
  * @copyright 2013-2017 tokkonopapa
  */
-if ( class_exists( 'IP_Geo_Block_API' ) ) :
+if ( class_exists( 'IP_Geo_Block_API', FALSE ) ) :
 
 /**
  * URL and Path for Maxmind GeoLite database
@@ -85,13 +85,13 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			break;
 
 		  case GEOIP_CITY_EDITION_REV1:
-			if ( ! class_exists( 'geoiprecord' ) )
+			if ( ! class_exists( 'geoiprecord', FALSE ) )
 				require_once( 'geoipcity.inc' );
 			$res = $this->location_city( geoip_record_by_addr( $geo, $ip ) );
 			break;
 
 		  case GEOIP_CITY_EDITION_REV1_V6:
-			if ( ! class_exists( 'geoiprecord' ) )
+			if ( ! class_exists( 'geoiprecord', FALSE ) )
 				require_once( 'geoipcity.inc' );
 			$res = $this->location_city( geoip_record_by_addr_v6( $geo, $ip ) );
 			break;
