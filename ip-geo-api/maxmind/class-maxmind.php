@@ -16,8 +16,14 @@ if ( class_exists( 'IP_Geo_Block_API', FALSE ) ) :
  */
 define( 'IP_GEO_BLOCK_MAXMIND_IPV4_DAT', 'GeoIP.dat' );
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_DAT', 'GeoIPv6.dat' );
+define( 'IP_GEO_BLOCK_MAXMIND_ASN4_DAT', 'GeoIPASNum.dat' );
+define( 'IP_GEO_BLOCK_MAXMIND_ASN6_DAT', 'GeoIPASNumv6.dat' );
+
 define( 'IP_GEO_BLOCK_MAXMIND_IPV4_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz' );
 define( 'IP_GEO_BLOCK_MAXMIND_IPV6_ZIP', 'http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz' );
+define( 'IP_GEO_BLOCK_MAXMIND_ASN4_ZIP', 'http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum.dat.gz' );
+define( 'IP_GEO_BLOCK_MAXMIND_ASN6_ZIP', 'http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNumv6.dat.gz' );
+
 define( 'IP_GEO_BLOCK_MAXMIND_DOWNLOAD', 'http://dev.maxmind.com/geoip/legacy/geolite/' );
 
 /**
@@ -56,15 +62,15 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		// setup database file and function
 		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
-			$file = empty( $settings['Maxmind']['ipv4_path'] ) ?
-				$this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
-				$settings['Maxmind']['ipv4_path'];
+			$file = empty( $args['ASN'] ) ?
+				( empty( $settings['Maxmind']['ipv4_path'] ) ? $this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_IPV4_DAT : $settings['Maxmind']['ipv4_path'] ):
+				( empty( $settings['Maxmind']['asn4_path'] ) ? $this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_ASN4_DAT : $settings['Maxmind']['asn4_path'] );
 		}
 
 		elseif ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
-			$file = empty( $settings['Maxmind']['ipv6_path'] ) ?
-				$this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_IPV6_DAT :
-				$settings['Maxmind']['ipv6_path'];
+			$file = empty( $args['ASN'] ) ?
+				( empty( $settings['Maxmind']['ipv6_path'] ) ? $this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_IPV6_DAT : $settings['Maxmind']['ipv6_path'] ):
+				( empty( $settings['Maxmind']['asn6_path'] ) ? $this->get_db_dir() . IP_GEO_BLOCK_MAXMIND_ASN6_DAT : $settings['Maxmind']['asn6_path'] );
 		}
 
 		else {
@@ -121,6 +127,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 	public function download( &$db, $args ) {
 		$dir = $this->get_db_dir();
 
+		// IPv4
 		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT;
 
@@ -134,6 +141,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$db['ipv4_last']
 		);
 
+		// IPv6
 		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_MAXMIND_IPV6_DAT;
 
@@ -147,10 +155,42 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			$db['ipv6_last']
 		);
 
+		// ASN for IPv4
+		if ( $dir !== dirname( $db['asn4_path'] ) . '/' )
+			$db['asn4_path'] = $dir . IP_GEO_BLOCK_MAXMIND_ASN4_DAT;
+
+		$res['asn4'] = IP_Geo_Block_Util::download_zip(
+			apply_filters(
+				IP_Geo_Block::PLUGIN_NAME . '-maxmind-zip-asn4',
+				IP_GEO_BLOCK_MAXMIND_ASN4_ZIP
+			),
+			$args,
+			$db['asn4_path'],
+			$db['asn4_last']
+		);
+
+		// ASN for IPv6
+		if ( $dir !== dirname( $db['asn6_path'] ) . '/' )
+			$db['asn6_path'] = $dir . IP_GEO_BLOCK_MAXMIND_ASN6_DAT;
+
+		$res['asn6'] = IP_Geo_Block_Util::download_zip(
+			apply_filters(
+				IP_Geo_Block::PLUGIN_NAME . '-maxmind-zip-asn6',
+				IP_GEO_BLOCK_MAXMIND_ASN6_ZIP
+			),
+			$args,
+			$db['asn6_path'],
+			$db['asn6_last']
+		);
+
 		! empty( $res['ipv4']['filename'] ) and $db['ipv4_path'] = $res['ipv4']['filename'];
 		! empty( $res['ipv6']['filename'] ) and $db['ipv6_path'] = $res['ipv6']['filename'];
 		! empty( $res['ipv4']['modified'] ) and $db['ipv4_last'] = $res['ipv4']['modified'];
 		! empty( $res['ipv6']['modified'] ) and $db['ipv6_last'] = $res['ipv6']['modified'];
+		! empty( $res['asn4']['filename'] ) and $db['asn4_path'] = $res['asn4']['filename'];
+		! empty( $res['asn6']['filename'] ) and $db['asn6_path'] = $res['asn6']['filename'];
+		! empty( $res['asn4']['modified'] ) and $db['asn4_last'] = $res['asn4']['modified'];
+		! empty( $res['asn6']['modified'] ) and $db['asn6_last'] = $res['asn6']['modified'];
 
 		return $res;
 	}
@@ -161,14 +201,16 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
 		$dir = $this->get_db_dir();
+		$msg = __( 'Database file does not exist.', 'ip-geo-block' );
 
+		// IPv4
 		$path = empty( $options['Maxmind']['ipv4_path'] ) ?
 			$dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
 			$options['Maxmind']['ipv4_path'];
 
 		$date = empty( $options['Maxmind']['ipv4_path'] ) ||
 			! @file_exists( $options['Maxmind']['ipv4_path'] ) ?
-			__( 'Database file does not exist.', 'ip-geo-block' ) :
+			$msg :
 			sprintf(
 				$str_last,
 				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
@@ -176,7 +218,7 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
-			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "'>IPv4</a>)",
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV4_ZIP . "'>IPv4</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -191,21 +233,22 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 			)
 		);
 
-		$path = empty( $options['Maxmind']['ipv4_path'] ) ?
-			$dir . IP_GEO_BLOCK_MAXMIND_IPV4_DAT :
-			$options['Maxmind']['ipv4_path'];
+		// IPv6
+		$path = empty( $options['Maxmind']['ipv6_path'] ) ?
+			$dir . IP_GEO_BLOCK_MAXMIND_IPV6_DAT :
+			$options['Maxmind']['ipv6_path'];
 
-		$date = empty( $options['Maxmind']['ipv4_path'] ) ||
-			! @file_exists( $options['Maxmind']['ipv4_path'] ) ?
-			__( 'Database file does not exist.', 'ip-geo-block' ) :
+		$date = empty( $options['Maxmind']['ipv6_path'] ) ||
+			! @file_exists( $options['Maxmind']['ipv6_path'] ) ?
+			$msg :
 			sprintf(
 				$str_last,
-				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
+				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv6_last'] )
 			);
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
-			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "'>IPv6</a>)",
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_IPV6_ZIP . "'>IPv6</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -217,6 +260,66 @@ class IP_Geo_Block_API_Maxmind extends IP_Geo_Block_API {
 				'value' => $path,
 				'disabled' => TRUE,
 				'after' => '<br /><p id="ip-geo-block-' . $field . '-ipv6" style="margin-left: 0.2em">' . $date . '</p>',
+			)
+		);
+
+		// ASN for IPv4
+		$path = empty( $options['Maxmind']['asn4_path'] ) ?
+			$dir . IP_GEO_BLOCK_MAXMIND_ASN4_DAT :
+			$options['Maxmind']['asn4_path'];
+
+		$date = empty( $options['Maxmind']['asn4_path'] ) ||
+			! @file_exists( $options['Maxmind']['asn4_path'] ) ?
+			$msg :
+			sprintf(
+				$str_last,
+				IP_Geo_Block_Util::localdate( $options[ $field ]['asn4_last'] )
+			);
+
+		add_settings_field(
+			$option_name . $field . '_asn4',
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_ASN4_ZIP . "'>ASN for IPv4</a>)",
+			$callback,
+			$option_slug,
+			$section,
+			array(
+				'type' => 'text',
+				'option' => $option_name,
+				'field' => $field,
+				'sub-field' => 'asn4_path',
+				'value' => $path,
+				'disabled' => TRUE,
+				'after' => '<br /><p id="ip-geo-block-' . $field . '-asn4" style="margin-left: 0.2em">' . $date . '</p>',
+			)
+		);
+
+		// ASN for IPv6
+		$path = empty( $options['Maxmind']['asn6_path'] ) ?
+			$dir . IP_GEO_BLOCK_MAXMIND_ASN6_DAT :
+			$options['Maxmind']['asn6_path'];
+
+		$date = empty( $options['Maxmind']['asn6_path'] ) ||
+			! @file_exists( $options['Maxmind']['asn6_path'] ) ?
+			$msg :
+			sprintf(
+				$str_last,
+				IP_Geo_Block_Util::localdate( $options[ $field ]['asn6_last'] )
+			);
+
+		add_settings_field(
+			$option_name . $field . '_asn6',
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_MAXMIND_DOWNLOAD . "' title='" . IP_GEO_BLOCK_MAXMIND_ASN6_ZIP . "'>ASN for IPv6</a>)",
+			$callback,
+			$option_slug,
+			$section,
+			array(
+				'type' => 'text',
+				'option' => $option_name,
+				'field' => $field,
+				'sub-field' => 'asn6_path',
+				'value' => $path,
+				'disabled' => TRUE,
+				'after' => '<br /><p id="ip-geo-block-' . $field . '-asn6" style="margin-left: 0.2em">' . $date . '</p>',
 			)
 		);
 	}
@@ -235,4 +338,3 @@ IP_Geo_Block_Provider::register_addon( array(
 ) );
 
 endif;
-?>

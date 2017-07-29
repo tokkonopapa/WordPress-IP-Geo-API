@@ -104,6 +104,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 	public function download( &$db, $args ) {
 		$dir = $this->get_db_dir();
 
+		// IPv4
 		if ( $dir !== dirname( $db['ipv4_path'] ) . '/' )
 			$db['ipv4_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT;
 
@@ -117,6 +118,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 			$db['ipv4_last']
 		);
 
+		// IPv6
 		if ( $dir !== dirname( $db['ipv6_path'] ) . '/' )
 			$db['ipv6_path'] = $dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT;
 
@@ -144,7 +146,9 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
 		$dir = $this->get_db_dir();
+		$msg = __( 'Database file does not exist.', 'ip-geo-block' );
 
+		// IPv4
 		$path = apply_filters(
 			IP_Geo_Block::PLUGIN_NAME . '-ip2location-path',
 			empty( $options['IP2Location']['ipv4_path'] ) ? 
@@ -154,7 +158,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		$date = empty( $options['IP2Location']['ipv4_path'] ) ||
 			! @file_exists( $options['IP2Location']['ipv4_path'] ) ?
-			__( 'Database file does not exist.', 'ip-geo-block' ) :
+			$msg :
 			sprintf(
 				$str_last,
 				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
@@ -162,7 +166,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
-			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_IP2LOC_DOWNLOAD . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV4_ZIP . "'>IPv4</a>)",
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_IP2LOC_DOWNLOAD . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV4_ZIP . "'>IPv4</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -177,13 +181,14 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 			)
 		);
 
+		// IPv6
 		$path = empty( $options['IP2Location']['ipv6_path'] ) ?
 			$dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT :
 			$options['IP2Location']['ipv6_path'];
 
 		$date = empty( $options['IP2Location']['ipv6_path'] ) ||
 			! @file_exists( $options['IP2Location']['ipv6_path'] ) ?
-			__( 'Database file does not exist.', 'ip-geo-block' ) :
+			$msg :
 			sprintf(
 				$str_last,
 				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv6_last'] )
@@ -191,7 +196,7 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
-			"$field $str_path (<a rel='noreferrer' href='" . IP_GEO_BLOCK_IP2LOC_DOWNLOAD . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV6_ZIP . "'>IPv6</a>)",
+			"$field $str_path<br />(<a rel='noreferrer' href='" . IP_GEO_BLOCK_IP2LOC_DOWNLOAD . "' title='" . IP_GEO_BLOCK_IP2LOC_IPV6_ZIP . "'>IPv6</a>)",
 			$callback,
 			$option_slug,
 			$section,
@@ -221,4 +226,3 @@ IP_Geo_Block_Provider::register_addon( array(
 ) );
 
 endif;
-?>
