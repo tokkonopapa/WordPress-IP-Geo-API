@@ -145,24 +145,20 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 	}
 
 	public function add_settings_field( $field, $section, $option_slug, $option_name, $options, $callback, $str_path, $str_last ) {
+		$db  = $options[ $field ];
 		$dir = $this->get_db_dir();
 		$msg = __( 'Database file does not exist.', 'ip-geo-block' );
 
 		// IPv4
-		$path = apply_filters(
-			IP_Geo_Block::PLUGIN_NAME . '-ip2location-path',
-			empty( $options['IP2Location']['ipv4_path'] ) ? 
-				$dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT :
-				$options['IP2Location']['ipv4_path']
-		);
+		if ( $db['ipv4_path'] )
+			$path = apply_filters( IP_Geo_Block::PLUGIN_NAME . '-ip2location-path', $db['ipv4_path'] );
+		else
+			$path = apply_filters( IP_Geo_Block::PLUGIN_NAME . '-ip2location-path', $dir . IP_GEO_BLOCK_IP2LOC_IPV4_DAT );
 
-		$date = empty( $options['IP2Location']['ipv4_path'] ) ||
-			! @file_exists( $options['IP2Location']['ipv4_path'] ) ?
-			$msg :
-			sprintf(
-				$str_last,
-				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv4_last'] )
-			);
+		if ( @file_exists( $path ) )
+			$date = sprintf( $str_last, IP_Geo_Block_Util::localdate( $db['ipv4_last'] ) );
+		else
+			$date = $msg;
 
 		add_settings_field(
 			$option_name . $field . '_ipv4',
@@ -182,17 +178,15 @@ class IP_Geo_Block_API_IP2Location extends IP_Geo_Block_API {
 		);
 
 		// IPv6
-		$path = empty( $options['IP2Location']['ipv6_path'] ) ?
-			$dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT :
-			$options['IP2Location']['ipv6_path'];
+		if ( $db['ipv6_path'] )
+			$path = apply_filters( IP_Geo_Block::PLUGIN_NAME . '-ip2location-path', $db['ipv6_path'] );
+		else
+			$path = apply_filters( IP_Geo_Block::PLUGIN_NAME . '-ip2location-path', $dir . IP_GEO_BLOCK_IP2LOC_IPV6_DAT );
 
-		$date = empty( $options['IP2Location']['ipv6_path'] ) ||
-			! @file_exists( $options['IP2Location']['ipv6_path'] ) ?
-			$msg :
-			sprintf(
-				$str_last,
-				IP_Geo_Block_Util::localdate( $options[ $field ]['ipv6_last'] )
-			);
+		if ( @file_exists( $path ) )
+			$date = sprintf( $str_last, IP_Geo_Block_Util::localdate( $db['ipv6_last'] ) );
+		else
+			$date = $msg;
 
 		add_settings_field(
 			$option_name . $field . '_ipv6',
