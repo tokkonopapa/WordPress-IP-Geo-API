@@ -10,19 +10,19 @@ Upload the `ip-geo-api` to WordPress content directory `wp-content/`.
 Version correspondence
 ----------------------
 
-| ip-geo-block |  ip-geo-api |
-|-------------:|------------:|
-|        2.2.1 |         1.0 |
-|        2.2.2 |         1.1 |
-|        2.2.6 |       1.1.3 |
-|        2.2.8 |       1.1.4 |
-|        2.2.9 |       1.1.5 |
-|        3.0.1 |       1.1.6 |
-|        3.0.2 |       1.1.7 |
-|        3.0.3 |       1.1.8 |
-|        3.0.4 |       1.1.9 |
-|        3.0.7 |      1.1.11 |
-|        3.0.8 |      1.1.12 |
+| ip-geo-block  |  ip-geo-api |
+|--------------:|------------:|
+|        2.2.1  |         1.0 |
+|        2.2.2  |         1.1 |
+|        2.2.6  |       1.1.3 |
+|        2.2.8  |       1.1.4 |
+|        2.2.9  |       1.1.5 |
+|        3.0.1  |       1.1.6 |
+|        3.0.2  |       1.1.7 |
+|        3.0.3  |       1.1.8 |
+|        3.0.4  |       1.1.9 |
+|        3.0.7  |      1.1.11 |
+|        3.0.8  |      1.1.13 |
 
 Attribution
 -----------
@@ -38,7 +38,7 @@ Copyright &copy; 2015 - 2016 tokkonopapa
 This plugin is licensed under the [GPL v3][GPLv3] or later.
 
 [IP-Geo-Block]:  https://github.com/tokkonopapa/WordPress-IP-Geo-Block "tokkonopapa/WordPress-IP-Geo-Block - GitHub"
-[GPLv3]:         http://www.gnu.org/licenses/gpl-3.0.txt
-[LGPLv3]:        http://www.gnu.org/licenses/lgpl-3.0.en.html
+[GPLv3]:         https://www.gnu.org/licenses/gpl-3.0.txt
+[LGPLv3]:        https://www.gnu.org/licenses/lgpl-3.0.en.html
 [Compatibility]: https://www.gnu.org/licenses/license-list.en.html#GPLCompatibleLicenses
 [CC_BY-SA_4.0]:  https://creativecommons.org/licenses/by-sa/4.0/ "Creative Commons &mdash; Attribution-ShareAlike 4.0 International &mdash; CC BY-SA 4.0"
